@@ -1,16 +1,23 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import {
+  FIREBASE_API_KEY,
+  FIREBASE_AUTH_DOMAIN,
+  FIREBASE_PROJECT_ID,
+  FIREBASE_STORAGE_BUCKET,
+  FIREBASE_MESSAGING_SENDER_ID,
+  FIREBASE_APP_ID,
+} from '@env';
 
-// Firebase configuration
-// TODO: Replace with your Firebase config or use environment variables
+// Firebase configuration from environment variables
 const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY || 'your-api-key',
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN || 'your-auth-domain',
-  projectId: process.env.FIREBASE_PROJECT_ID || 'your-project-id',
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET || 'your-storage-bucket',
-  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || 'your-sender-id',
-  appId: process.env.FIREBASE_APP_ID || 'your-app-id',
+  apiKey: FIREBASE_API_KEY,
+  authDomain: FIREBASE_AUTH_DOMAIN,
+  projectId: FIREBASE_PROJECT_ID,
+  storageBucket: FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
+  appId: FIREBASE_APP_ID,
 };
 
 // Initialize Firebase

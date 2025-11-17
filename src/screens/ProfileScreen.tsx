@@ -5,18 +5,37 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import { theme } from '../constants/theme';
 import { Card } from '../components/ui';
+import { useAuth } from '../hooks/useAuth';
+import { signOut } from '../services/auth';
 
 export const ProfileScreen = ({ navigation }: any) => {
-  // TODO: Get user data from Firebase
-  const user = {
-    displayName: 'Utilisateur',
-    email: 'user@example.com',
-  };
+  const { user } = useAuth();
 
   const savedPeople = []; // TODO: Fetch from Firebase
+
+  const handleSignOut = async () => {
+    Alert.alert(
+      'Déconnexion',
+      'Êtes-vous sûr de vouloir vous déconnecter ?',
+      [
+        { text: 'Annuler', style: 'cancel' },
+        {
+          text: 'Déconnexion',
+          style: 'destructive',
+          onPress: async () => {
+            const { error } = await signOut();
+            if (error) {
+              Alert.alert('Erreur', error);
+            }
+          },
+        },
+      ]
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -34,11 +53,13 @@ export const ProfileScreen = ({ navigation }: any) => {
         <Card variant="elevated" padding="lg" style={styles.section}>
           <View style={styles.avatar}>
             <Text style={styles.avatarText}>
-              {user.displayName.charAt(0).toUpperCase()}
+              {user?.email?.charAt(0).toUpperCase() || 'U'}
             </Text>
           </View>
-          <Text style={styles.userName}>{user.displayName}</Text>
-          <Text style={styles.userEmail}>{user.email}</Text>
+          <Text style={styles.userName}>
+            {user?.displayName || 'Utilisateur'}
+          </Text>
+          <Text style={styles.userEmail}>{user?.email || ''}</Text>
         </Card>
 
         {/* Saved People */}
@@ -108,7 +129,7 @@ export const ProfileScreen = ({ navigation }: any) => {
 
             <View style={styles.settingDivider} />
 
-            <TouchableOpacity style={styles.settingItem}>
+            <TouchableOpacity style={styles.settingItem} onPress={handleSignOut}>
               <Text style={[styles.settingText, styles.logoutText]}>
                 Déconnexion
               </Text>
